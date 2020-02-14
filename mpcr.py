@@ -1,3 +1,11 @@
+import subprocess
+
+def install(name):
+    subprocess.call(['pip', 'install', name])
+
+install(name)
+
+
 import math
 from abc import ABCMeta, abstractmethod
 import os
