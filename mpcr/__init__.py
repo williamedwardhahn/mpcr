@@ -429,13 +429,12 @@ text_color_layer = (0, 0, 0)
 def drawnet(insize,f_num,f_size):
 
     model = Model(input_shape=(insize, insize, 1))
-    model.add(Conv2D(f_num[0], (f_size[0],f_size[0])))
-    model.add(Conv2D(f_num[1], (f_size[1],f_size[1])))
-    model.add(Conv2D(f_num[2], (f_size[2],f_size[2])))
-    model.add(Conv2D(f_num[3], (f_size[3],f_size[3])))
-    model.add(Conv2D(f_num[4], (f_size[4],f_size[4])))
-    model.add(Conv2D(f_num[5], (f_size[5],f_size[5])))
-    model.add(Conv2D(f_num[6], (1,1)))
+    model.add(Conv2D(f_num[1], (f_size[0],f_size[0])))
+    model.add(Conv2D(f_num[2], (f_size[1],f_size[1])))
+    model.add(Conv2D(f_num[3], (f_size[2],f_size[2])))
+    model.add(Conv2D(f_num[4], (f_size[3],f_size[3])))
+    model.add(Conv2D(f_num[5], (f_size[4],f_size[4])))
+    model.add(Conv2D(f_num[6], (f_size[5],f_size[5])))
     save_model_to_file(model, "example.pdf")
     
     
