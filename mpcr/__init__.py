@@ -25,6 +25,7 @@ from torchvision import datasets, transforms
 
 
 
+#https://github.com/yu4u/convnet-drawer
 
 import math
 from abc import ABCMeta, abstractmethod
