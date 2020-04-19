@@ -1,5 +1,5 @@
-!pip install wandb
-
+from pip._internal import main as pipmain
+pipmain(['install', 'wandb'])
 
 import time
 import torch
