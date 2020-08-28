@@ -16,9 +16,15 @@ from skimage.util import montage
 from torch.nn.functional import *
 from torch.autograd import Variable
 from torchvision import datasets, transforms
-
-
-
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.metrics import roc_auc_score
+from urllib.request import Request, urlopen
+from sklearn.linear_model import LogisticRegression as LR
+import torch.optim as optim
 
 
 
@@ -470,5 +476,49 @@ def drawnet(insize,f_num,f_size):
     
 
 
+    
+    
+    
+def get_uniprot_data(kw1, kw2, numxs):
+    '''Goes to the uniprot website and searches for 
+       data with the keyword given. Returns the data 
+       found up to limit elements.'''
 
+    kws = [kw1, kw2]
+    Protein_data = {}
+            
+    for i in range(2):
+        kw = kws[i]
+        url1 = 'http://www.uniprot.org/uniprot/?query'
+        url2 = '&columns=sequence&format=tab&limit={}'.format(numxs)
+        query_complete = url1 + kw + url2
+        request = Request(query_complete)
+        response = urlopen(request)
+        data = response.read()
+        data = str(data, 'utf-8')
+        data = data.split('\n')
+        data = data[1:-1]
+        Protein_data[str(i)] = list(map(lambda x:x.lower(),data))
+
+    x, y = Protein_data['0'], Protein_data['1']
+        
+    return x, y
+
+
+
+
+def process_strings(c):
+    '''Takes in a list of sequences 'c' and turns each one
+       into a list of numbers.'''
+       
+    X = []
+            
+    for  m, seq in enumerate(c):
+        x = [] 
+        for letter in seq:
+            x.append(max(ord(letter)-97, 0))
+        
+        X.append(x)
+        
+    return X
 
