@@ -5,6 +5,7 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
 
 import time
 import torch
+from torch import matmul
 import numpy as np
 import wandb as wb
 import torch.nn as nn
