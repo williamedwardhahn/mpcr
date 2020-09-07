@@ -42,6 +42,13 @@ import sys
 import matplotlib.pyplot as plt
 
 
+def scale(x, out_range=(0, 1)):
+    domain = np.min(x), np.max(x)
+    y = (x - (domain[1] + domain[0]) / 2) / (domain[1] - domain[0])
+    return y * (out_range[1] - out_range[0]) + (out_range[1] + out_range[0]) / 2
+
+
+
 class Line:
     def __init__(self, x1, y1, x2, y2, color=(0, 0, 0), width=1, dasharray=None):
         self.x1, self.y1 = x1, y1
