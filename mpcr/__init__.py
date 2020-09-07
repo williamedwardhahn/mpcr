@@ -41,6 +41,26 @@ import os
 import sys
 import matplotlib.pyplot as plt
 
+from matplotlib import animation, rc
+from IPython.display import HTML
+
+def make_ani(A):
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(A[0,:,:])
+
+    def animate(data, im):
+        im.set_data(data)
+
+    def step():
+        for i in range(A.shape[0]):
+            data = A[i,:,:]
+            yield data
+
+    return animation.FuncAnimation(fig, animate, step, interval=100, repeat=True, fargs=(im,))
+
+
+
 
 def scale(x, out_range=(0, 1)):
     domain = np.min(x), np.max(x)
