@@ -2,7 +2,7 @@ import sys
 import subprocess
 # implement pip as a subprocess:
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
-
+from numpy import linalg as LA
 import time
 import torch
 from torch import matmul
