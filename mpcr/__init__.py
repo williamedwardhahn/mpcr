@@ -3,7 +3,6 @@ import sys
 import time
 import copy
 import json
-import nltk
 import torch
 import pylab
 import random
@@ -13,12 +12,10 @@ import torchvision
 import pandas as pd
 import seaborn as sns
 import torch.nn as nn
-nltk.download('punkt')
 from scipy import stats
 from torch import matmul
 import torchvision.utils
 from bisect import bisect
-stemmer = PorterStemmer()
 import torch.optim as optim
 from skimage import io as io
 from numpy import linalg as LA
@@ -37,7 +34,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from torch.utils.data import DataLoader
 from torchvision.utils import save_image
 from sklearn.metrics import roc_auc_score
-from nltk.stem.porter import PorterStemmer
 from urllib.request import Request, urlopen
 import torchvision.transforms as transforms
 from torchvision import datasets, transforms
@@ -50,7 +46,10 @@ from torch.utils.data import DataLoader, TensorDataset, random_split
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
 import wandb as wb
 
-
+import nltk
+nltk.download('punkt')
+from nltk.stem.porter import PorterStemmer
+stemmer = PorterStemmer()
 
 def softmax(x):
     s1 = torch.exp(x - torch.max(x,1)[0][:,None])
