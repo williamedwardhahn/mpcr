@@ -8,7 +8,6 @@ import torch
 import pylab
 import random
 import subprocess
-import wandb as wb
 import numpy as np
 import torchvision
 import pandas as pd
@@ -47,7 +46,9 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import datasets, models, transforms
 from sklearn.linear_model import LogisticRegression as LR
 from torch.utils.data import DataLoader, TensorDataset, random_split
+
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
+import wandb as wb
 
 
 
