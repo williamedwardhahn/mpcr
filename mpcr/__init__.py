@@ -1,45 +1,53 @@
+import os
 import sys
-import subprocess
-# implement pip as a subprocess:
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
-from numpy import linalg as LA
 import time
+import copy
+import json
+import nltk
 import torch
-from torch import matmul
-import numpy as np
+import pylab
+import random
+import subprocess
 import wandb as wb
-import torch.nn as nn
-from scipy import stats
-from skimage import io as io
-import matplotlib.pyplot as plt
-import torch.nn.functional as F
-from skimage.util import montage
-from torch.nn.functional import *
-from torch.autograd import Variable
-from torchvision import datasets, transforms
+import numpy as np
+import torchvision
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from mpl_toolkits.mplot3d import Axes3D
-from sklearn.metrics import roc_auc_score
-from urllib.request import Request, urlopen
-from sklearn.linear_model import LogisticRegression as LR
-import torch.optim as optim
-from random import random, randint
+import torch.nn as nn
+nltk.download('punkt')
+from scipy import stats
+from torch import matmul
+import torchvision.utils
 from bisect import bisect
-
-from sklearn.metrics import confusion_matrix
-import torchvision
-from torchvision import datasets, models, transforms
+stemmer = PorterStemmer()
 import torch.optim as optim
-from torch.optim import lr_scheduler
-import copy
-
-from torch.utils.data import DataLoader, TensorDataset, random_split
+from skimage import io as io
+from numpy import linalg as LA
 from google.colab import drive
-
-
+import torch.nn.functional as F
+import matplotlib.pyplot as plt
+from skimage.util import montage
+from torch.nn.functional import *
+from random import random, randint
+from torchvision import transforms
+from torch.autograd import Variable
+from torch.optim import lr_scheduler
+from sklearn.decomposition import PCA
+from torchvision.datasets import MNIST
+from mpl_toolkits.mplot3d import Axes3D
+from torch.utils.data import DataLoader
+from torchvision.utils import save_image
+from sklearn.metrics import roc_auc_score
+from nltk.stem.porter import PorterStemmer
+from urllib.request import Request, urlopen
+import torchvision.transforms as transforms
+from torchvision import datasets, transforms
+from sklearn.metrics import confusion_matrix
+from torch.utils.data import Dataset, DataLoader
+from torchvision import datasets, models, transforms
+from sklearn.linear_model import LogisticRegression as LR
+from torch.utils.data import DataLoader, TensorDataset, random_split
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
 
 
 
@@ -93,17 +101,116 @@ def montage_plot(x):
     plot(montage(x))    
 
 
+def get_batch(mode):
+    b = c.b
+    if mode == "train":
+        r = np.random.randint(X.shape[0]-b) 
+        x = X[r:r+b,:,:,:]
+        y = Y[r:r+b]
+    elif mode == "test":
+        r = np.random.randint(X_test.shape[0]-b)
+        x = X_test[r:r+b,:,:,:]
+        y = Y_test[r:r+b]
+    return x,y
 
 
 
+def gradient_step(w):
+
+    for j in range(len(w)): 
+
+            w[j].data = w[j].data - c.h*w[j].grad.data
+            
+            w[j].grad.data.zero_()
 
 
+def make_plots():
+    
+    acc_train = acc(model(x,w),y)
+    
+    xt,yt = get_batch('test')
+
+    acc_test = acc(model(xt,w),yt)
+
+    wb.log({"acc_train": acc_train, "acc_test": acc_test})
+    
+    
+    
+    
+def log_arch():
+    c.f_s0 = c.f_s[0]
+    c.f_s1 = c.f_s[1]
+    c.f_s2 = c.f_s[2]
+    c.f_s3 = c.f_s[3]
+    c.f_s4 = c.f_s[4]
+    c.f_s5 = c.f_s[5]
+
+    c.f_n0 = c.f_n[0]
+    c.f_n1 = c.f_n[1]
+    c.f_n2 = c.f_n[2]
+    c.f_n3 = c.f_n[3]
+    c.f_n4 = c.f_n[4]
+    c.f_n5 = c.f_n[5]
+    c.f_n6 = c.f_n[6]
 
 
+def to_img(x):
+    x = 0.5 * (x + 1)
+    x = x.clamp(0, 1)
+    return x
 
+def show_image(img):
+    img = to_img(img)
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
 
+    
+    
+def backprop(model):
+    if model == 'D':
+        d_optimizer.zero_grad()
+        d_loss.backward()
+        d_optimizer.step()
 
+    elif model ==  'G':
+        g_optimizer.zero_grad()
+        g_loss.backward()
+        g_optimizer.step()
+        
+        
+def tokenize(sentence):
+    """
+    split sentence into array of words/tokens
+    a token can be a word or punctuation character, or number
+    """
+    return nltk.word_tokenize(sentence)
+def stem(word):
+    """
+    stemming = find the root form of the word
+    examples:
+    words = ["organize", "organizes", "organizing"]
+    words = [stem(w) for w in words]
+    -> ["organ", "organ", "organ"]
+    """
+    return stemmer.stem(word.lower())
+def bag_of_words(tokenized_sentence, words):
+    """
+    return bag of words array:
+    1 for each known word that exists in the sentence, 0 otherwise
+    example:
+    sentence = ["hello", "how", "are", "you"]
+    words = ["hi", "hello", "I", "you", "bye", "thank", "cool"]
+    bog   = [  0 ,    1 ,    0 ,   1 ,    0 ,    0 ,      0]
+    """
+    # stem each word
+    sentence_words = [stem(word) for word in tokenized_sentence]
+    # initialize bag with 0 for each word
+    bag = np.zeros(len(words), dtype=np.float32)
+    for idx, w in enumerate(words):
+        if w in sentence_words: 
+            bag[idx] = 1
 
+    return bag
 
 
 
