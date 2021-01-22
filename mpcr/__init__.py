@@ -5,14 +5,19 @@ import copy
 import json
 import torch
 import pylab
+import torch
+import pylab
 import random
 import subprocess
+import torchvision
 import numpy as np
 import torchvision
 import pandas as pd
+import torch.nn as nn
 import seaborn as sns
 import torch.nn as nn
 from scipy import stats
+import torchvision.utils
 from torch import matmul
 import torchvision.utils
 from bisect import bisect
@@ -24,16 +29,19 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from skimage.util import montage
 from torch.nn.functional import *
+from torchvision import transforms
 from random import random, randint
 from torchvision import transforms
 from torch.autograd import Variable
 from torch.optim import lr_scheduler
 from sklearn.decomposition import PCA
 from torchvision.datasets import MNIST
+from torch.utils.data import DataLoader
 from mpl_toolkits.mplot3d import Axes3D
 from torch.utils.data import DataLoader
 from torchvision.utils import save_image
 from sklearn.metrics import roc_auc_score
+import torchvision.transforms as transforms
 from urllib.request import Request, urlopen
 import torchvision.transforms as transforms
 from torchvision import datasets, transforms
