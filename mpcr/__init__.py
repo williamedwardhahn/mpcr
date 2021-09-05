@@ -51,6 +51,22 @@ from torchvision import datasets, models, transforms
 from sklearn.linear_model import LogisticRegression as LR
 from torch.utils.data import DataLoader, TensorDataset, random_split
 
+
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'flashtorch'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'barbar'])
+
+from flashtorch.utils import apply_transforms
+from flashtorch.saliency import Backprop
+import itertools
+from barbar import Bar
+import numpy as np
+from skimage import io as io
+import matplotlib.pyplot as plt
+from scipy import signal
+from skimage.color import rgb2hsv
+import cv2
+from skimage.util import montage
+
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wandb'])
 import wandb as wb
 
