@@ -55,7 +55,8 @@ from torchvision import datasets, models, transforms
 from sklearn.linear_model import LogisticRegression as LR
 from mpl_toolkits.axes_grid1.axes_rgb import make_rgb_axes, RGBAxes
 from torch.utils.data import DataLoader, TensorDataset, random_split
-import torchvision.transforms.functional.normalize as normalize
+from torchvision.transforms.functional import normalize
+
 
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'flashtorch'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'barbar'])
