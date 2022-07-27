@@ -174,6 +174,22 @@ def get_batch(mode):
 
 
 
+def vizvec(x): 
+
+    fig, ax = plt.subplots()
+
+    min_val, max_val = 0, 15
+
+    ax.matshow(x, cmap=plt.cm.Blues)
+    
+    plt.axis('off')
+
+    for i in range(x.shape[0]):
+        for j in range(x.shape[1]):
+            c = x[i,j]
+            ax.text(j, i, str(c), va='center', ha='center')
+
+
 def gradient_step(w):
 
     for j in range(len(w)): 
