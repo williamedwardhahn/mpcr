@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpcr"
+version = "1.0.0"
+description = "Everything used in the MPCR lab, in one import: from mpcr import *"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "MPCR Lab", email = "mpcrlab@gmail.com" }, { name = "William Edward Hahn" }]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: Jupyter",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# Everything version 0 imported or pip-installed at import time, now installed once by pip.
+# (Colab already has nearly all of these, so installing there is quick.)
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "pillow",
+    "requests",
+    "imageio>=2.16",
+    "scikit-image>=0.19",
+    "scikit-learn",
+    "torch",
+    "torchvision",
+    "torchsummary",
+    "ipython",
+    "nltk",
+    "wandb",
+    "flashtorch",
+    "barbar",
+]
+
+[project.optional-dependencies]
+cv = ["opencv-python-headless"]
+test = ["pytest", "nbformat"]
+
+[project.urls]
+Homepage = "https://github.com/williamedwardhahn/mpcr"
+
+[tool.setuptools]
+packages = ["mpcr"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["network: needs the internet (UniProt, NLTK data)"]
