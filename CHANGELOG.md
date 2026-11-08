@@ -40,7 +40,7 @@ A rewrite that keeps `from mpcr import *` working for every notebook written for
 
 ### Added
 - `DEVICE`, `get_device()`, `view_as_windows`, `view_as_blocks`, `uniprot_sequences()`.
-- Tests (`pytest`, 28 of them, Python 3.9 and 3.12) and a GitHub Actions workflow.
+- Tests (`pytest`, 28 of them) and a GitHub Actions workflow (Python 3.9, 3.12 and 3.13).
 
 ### Checked
 - All eight course notebooks that use mpcr were run end to end against version 0 and version 1
