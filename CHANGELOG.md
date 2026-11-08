@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 (2026-11-06)
+## 1.0.0 (2026-11-08)
 
 A rewrite that keeps `from mpcr import *` working for every notebook written for version 0.
 
@@ -40,4 +40,10 @@ A rewrite that keeps `from mpcr import *` working for every notebook written for
 
 ### Added
 - `DEVICE`, `get_device()`, `view_as_windows`, `view_as_blocks`, `uniprot_sequences()`.
-- Tests (`pytest`) and a GitHub Actions workflow.
+- Tests (`pytest`, 28 of them, Python 3.9 and 3.12) and a GitHub Actions workflow.
+
+### Checked
+- All eight course notebooks that use mpcr were run end to end against version 0 and version 1
+  on the same machine and compared cell by cell. Version 1 introduces no new errors; the cells that
+  fail off Colab fail under both versions, for reasons of their own (hard-coded CUDA, Google Drive
+  paths, image links that no longer work).

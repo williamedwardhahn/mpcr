@@ -1,11 +1,16 @@
 # mpcr
 
+[![test](https://github.com/williamedwardhahn/mpcr/actions/workflows/test.yml/badge.svg)](https://github.com/williamedwardhahn/mpcr/actions/workflows/test.yml)
+
 Everything used in the MPCR lab, in one import.
 
 ```python
 !pip install git+https://github.com/williamedwardhahn/mpcr
 from mpcr import *
 ```
+
+To keep a course on one version even if mpcr changes later, pin it:
+`!pip install git+https://github.com/williamedwardhahn/mpcr@v1.0.0`.
 
 That gives a notebook the usual scientific stack under the usual names, plus the lab's small helpers.
 It works on Colab, in Jupyter on your own machine, and in plain Python scripts, and it uses an
@@ -71,6 +76,22 @@ lab's; `random` is the function; `io` is `skimage.io`). What changed:
   and an unstable `cross_entropy`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the details.
+
+## Running old notebooks off Colab
+
+mpcr itself runs anywhere, but many course notebooks define their own copies of `GPU` and `GPU_data`
+with `device=torch.device('cuda')` written in, or call `.cuda()`. Those cells fail on a Mac or a
+CPU-only machine whatever mpcr does. To run such a notebook there, delete the notebook's own `GPU`
+and `GPU_data` cells (mpcr's pick the right device) and replace `.cuda()` with `.to(DEVICE)`.
+Paths under `/content/drive` exist only on Colab.
+
+## Known issues
+
+- **flashtorch** (`Backprop`, `apply_transforms`) is no longer maintained. It works with current
+  PyTorch but uses `register_backward_hook`, which PyTorch has deprecated, so a future PyTorch
+  release will break it. Several notebooks import it directly (`from flashtorch.saliency import
+  Backprop`), so when that happens those imports will need replacing; mpcr's tests will show it first.
+- `apply_transforms` expects an RGB image; a PNG with an alpha channel needs `image[..., :3]` first.
 
 ## Developing
 
